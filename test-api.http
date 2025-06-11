@@ -1,0 +1,27 @@
+### Tambahkan produk skincare 1
+POST http://127.0.0.1:8000/api/products
+Content-Type: application/json
+
+{
+  "name": "Niacinamide 10% + Zinc",
+  "brand": "The Ordinary",
+  "category": "Serum",
+  "description": "Mencerahkan wajah dan mengurangi jerawat.",
+  "stock": 40,
+  "price": 125000,
+  "is_active": true
+}
+
+### Tambahkan produk skincare 2
+POST http://127.0.0.1:8000/api/products
+Content-Type: application/json
+
+{
+  "name": "Sunscreen Hydrasoothe SPF50+ PA++++",
+  "brand": "Azarine",
+  "category": "Sunscreen",
+  "description": "Sunscreen ringan, tidak lengket, cocok untuk remaja.",
+  "stock": 100,
+  "price": 56000,
+  "is_active": true
+}
