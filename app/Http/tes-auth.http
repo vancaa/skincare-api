@@ -1,0 +1,45 @@
+### REGISTER - Buat akun baru (opsional, untuk testing user lain)
+POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
+
+{
+  "name": "Vanessa",
+  "email": "vanessa@email.com",
+  "password": "password123"
+}
+
+### LOGIN - Ambil ulang token
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+  "email": "vanessa@email.com",
+  "password": "password123"
+}
+
+### WHOAMI - Cek siapa yang sedang login
+GET http://127.0.0.1:8000/api/whoami
+Authorization: Bearer 2|Tiy95aDafy0wd8BllmujhTzzAj3eb11zLcSwnp1P127555f4
+
+### LOGOUT - Keluar dari login
+POST http://127.0.0.1:8000/api/logout
+Authorization: Bearer 2|Tiy95aDafy0wd8BllmujhTzzAj3eb11zLcSwnp1P127555f4
+
+### TAMBAH PRODUK - (harus login)
+POST http://127.0.0.1:8000/api/products
+Content-Type: application/json
+Authorization: Bearer 2|Tiy95aDafy0wd8BllmujhTzzAj3eb11zLcSwnp1P127555f4
+
+{
+  "name": "Hydrating Toner",
+  "brand": "Hada Labo",
+  "category": "Toner",
+  "description": "Toner ringan untuk kulit kering dan sensitif.",
+  "stock": 25,
+  "price": 75000,
+  "is_active": true
+}
+
+### DELETE PRODUK (contoh ID 1)
+DELETE http://127.0.0.1:8000/api/products/1
+Authorization: Bearer 2|Tiy95aDafy0wd8BllmujhTzzAj3eb11zLcSwnp1P127555f4
