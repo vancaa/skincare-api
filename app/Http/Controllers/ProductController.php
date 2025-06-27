@@ -11,19 +11,104 @@ class ProductController extends Controller
      * @OA\Get(
      *     path="/api/products",
      *     tags={"Products"},
-     *     summary="Ambil semua produk skincare",
-     *     @OA\Response(response=200, description="Daftar semua produk")
+     *     summary="Ambil daftar produk skincare (dengan filter, sorting, dan paginasi)",
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Halaman saat ini",
+     *         required=false,
+     *         @OA\Schema(type="integer", format="int64", example=1)
+     *     ),
+     *     @OA\Parameter(
+     *         name="limit",
+     *         in="query",
+     *         description="Jumlah produk per halaman",
+     *         required=false,
+     *         @OA\Schema(type="integer", format="int64", example=10)
+     *     ),
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Kata kunci pencarian produk",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="brand",
+     *         in="query",
+     *         description="Filter berdasarkan brand",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="sort_by",
+     *         in="query",
+     *         description="Kolom untuk sorting (misal: price, created_at)",
+     *         required=false,
+     *         @OA\Schema(type="string", example="latest")
+     *     ),
+     *     @OA\Response(response=200, description="Daftar produk yang difilter dan dipaginasi")
      * )
      */
-    public function index()
-    {
-        $products = Product::where('is_active', true)->get();
+    public function index(Request $request)
+{
+    try {
+        $filter = $request->all();
+        $page = isset($filter['_page']) ? intval($filter['_page']) : 1;
+        $limit = isset($filter['_limit']) ? intval($filter['_limit']) : 10;
+        $offset = ($page - 1) * $limit;
+
+        $products = Product::where('is_active', true);
+
+        // Filter pencarian (nama produk)
+        if ($request->get('_search')) {
+            $products = $products->whereRaw("LOWER(name) LIKE ?", ['%' . strtolower($request->get('_search')) . '%']);
+        }
+
+        // Filter berdasarkan brand
+        if ($request->get('_brand')) {
+            $products = $products->whereRaw("LOWER(brand) = ?", [strtolower($request->get('_brand'))]);
+        }
+
+        // Sorting
+        switch ($request->get('_sort_by')) {
+            case 'name_asc':
+                $products = $products->orderBy('name', 'ASC');
+                break;
+            case 'name_desc':
+                $products = $products->orderBy('name', 'DESC');
+                break;
+            case 'price_asc':
+                $products = $products->orderBy('price', 'ASC');
+                break;
+            case 'price_desc':
+                $products = $products->orderBy('price', 'DESC');
+                break;
+            case 'latest':
+            default:
+                $products = $products->orderBy('created_at', 'DESC');
+                break;
+        }
+
+        // Total semua hasil filter
+        $products_count_total = $products->count();
+
+        // Ambil data per page
+        $products = $products->limit($limit)->offset($offset)->get();
 
         return response()->json([
-            'message' => 'List of active products',
+            'message' => 'Filtered product list',
+            'products_count_total' => $products_count_total,
+            'products_count_start' => $products_count_total === 0 ? 0 : ($offset + 1),
+            'products_count_end' => $products_count_total === 0 ? 0 : ($offset + count($products)),
             'data' => $products
-        ]);
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Invalid data: ' . $e->getMessage()
+        ], 400);
     }
+}
 
     /**
      * @OA\Post(

@@ -144,8 +144,7 @@
                 "tags": [
                     "Orders"
                 ],
-                "summary": "Checkout produk skincare",
-                "description": "Endpoint untuk melakukan pembelian produk oleh customer",
+                "summary": "Proses checkout pembelian produk skincare",
                 "operationId": "b4720344c84a64fae2236ca18cb0d4a6",
                 "requestBody": {
                     "required": true,
@@ -173,55 +172,13 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Berhasil checkout",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Berhasil checkout"
-                                        },
-                                        "order": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "user_id": {
-                                                    "type": "integer",
-                                                    "example": 5
-                                                },
-                                                "product_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "quantity": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "example": "2025-06-17 21:15:00"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "example": "2025-06-17 21:15:00"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Berhasil checkout"
                     },
                     "400": {
-                        "description": "Data tidak valid"
+                        "description": "Stok tidak mencukupi"
                     },
-                    "401": {
-                        "description": "Unauthorized"
+                    "404": {
+                        "description": "Produk tidak ditemukan"
                     }
                 },
                 "security": [
@@ -236,11 +193,63 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Ambil semua produk skincare",
+                "summary": "Ambil daftar produk skincare (dengan filter, sorting, dan paginasi)",
                 "operationId": "1bfaa78d1c2c3848ab8165c5dadcad3e",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Halaman saat ini",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Jumlah produk per halaman",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Kata kunci pencarian produk",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "brand",
+                        "in": "query",
+                        "description": "Filter berdasarkan brand",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Kolom untuk sorting (misal: price, created_at)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "latest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Daftar semua produk"
+                        "description": "Daftar produk yang difilter dan dipaginasi"
                     }
                 }
             },
@@ -330,6 +339,9 @@
                 "responses": {
                     "200": {
                         "description": "Detail produk ditemukan"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
                     }
                 }
             },
@@ -421,6 +433,9 @@
                 "responses": {
                     "200": {
                         "description": "Produk dihapus"
+                    },
+                    "404": {
+                        "description": "Produk tidak ditemukan"
                     }
                 },
                 "security": [
@@ -444,12 +459,12 @@
     },
     "tags": [
         {
-            "name": "Orders",
-            "description": "Proses checkout pembelian produk skincare"
-        },
-        {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
         },
         {
             "name": "Products",
