@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     /**
@@ -168,17 +168,40 @@ class ProductController extends Controller
      *     @OA\Response(response=404, description="Produk tidak ditemukan")
      * )
      */
-    public function show($id)
-    {
-        $product = Product::find($id);
+public function show($id)
+{
+    $product = Product::find($id);
 
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
-        }
-
-        return response()->json(['data' => $product]);
+    if (!$product) {
+        return response()->json(['message' => 'Product not found'], 404);
     }
 
+    // Buat slug dari nama produk (contoh: "Toner Glow" → "toner-glow")
+    $slug = Str::slug($product->name ?? 'produk-tanpa-nama');
+
+    // Coba cari file gambar .png berdasarkan slug
+    $imagePath = "assets/images/products/{$slug}.png";
+    $imageFullPath = public_path($imagePath);
+
+    // Jika file tidak ada, pakai placeholder
+    if (!file_exists($imageFullPath)) {
+        $imagePath = "assets/images/placeholder.png";
+    }
+
+    // Tambahkan ke respons API
+    $product->image_url = $imagePath;
+
+    // Pastikan brand dan category aman tampil meski kosong
+    $product->brand = $product->brand ?? '-';
+    $product->category = $product->category ?? '-';
+
+    return response()->json($product);
+}
+
+public function detailPage($id)
+{
+    return view('pages.pdp');
+}
     /**
      * @OA\Put(
      *     path="/api/products/{id}",

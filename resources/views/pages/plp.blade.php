@@ -5,34 +5,54 @@
     <!-- Product Area Start -->
     <div class="product-wrapper section-space--ptb_90 border-bottom pb-5 mb-5">
         <div class="container">
+            <!-- Sort, Showing, and Search Bar -->
+            <div class="row mb-4">
+                <div class="col-lg-12 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                    <!-- Sort & Showing -->
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <select class="_filter form-select form-select-sm w-auto" name="_sort_by" onchange="getData()">
+                            <option value="title_asc">Sort by A-Z</option>
+                            <option value="title_desc">Sort by Z-A</option>
+                            <option value="latest_publication">Sort by latest</option>
+                            <option value="latest_added">Sort by time added</option>
+                            <option value="price_asc">Sort by price: low to high</option>
+                            <option value="price_desc">Sort by price: high to low</option>
+                        </select>
+                        <p class="result-count mb-0 small text-muted">
+                            Showing <span id="products_count_start"></span>–<span id="products_count_end"></span>
+                            of <span id="products_count_total"></span>
+                        </p>
+                    </div>
+
+                    <!-- Search bar -->
+                    <div class="header-search-box d-flex">
+                        <input class="_filter search-field form-control form-control-sm" name="_search" type="text"
+                            onkeypress="getDataOnEnter(event)" placeholder="Search by title or brand...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content: Filter kiri & Produk kanan -->
             <div class="row">
-                <div class="col-lg-3 col-md-3 order-md-1 order-md-2 small-mt__40">
-                    <!-- Publishers Filter -->
-                    <div class="shop-widget widget-shop-publishers mt-3">
+                <!-- Kiri: Filter -->
+                <div class="col-lg-3 col-md-4">
+                    <!-- Brand Filter -->
+                    <div class="shop-widget widget-shop-publishers mb-4">
                         <div class="product-filter">
-                            <h6 class="mb-20">Publishers</h6>
-                            <select class="_filter form-select form-select-sm" name="_publisher" onchange="getData()">
-                                <option value="" selected>All</option>
-                                <option value="putnam">Putnam</option>
-                                <option value="harriman house">Harriman House</option>
-                                <option value="balai pustaka">Balai Pustaka</option>
-                                <option value="lentera dipantara">Lentera Dipantara</option>
-                                <option value="pan books">Pan Books</option>
-                                <option value="firefly books">Firefly Books</option>
-                                <option value="gramedia">Gramedia</option>
-                                <option value="scholastic">Scholastic</option>
-                                <option value="harper">Harper</option>
-                                <option value="dk children">DK Children</option>
-                                <option value="bentang pustaka">Bentang Pustaka</option>
-                                <option value="gagas media">Gagas Media</option>
-                                <option value="grasindo">Grasindo</option>
-                                <option value="marjin kiri">Marjin Kiri</option>
+                            <h6 class="mb-20">Brands</h6>
+                            <select class="_filter form-select form-select-sm" name="_brand" onchange="getData()">
+                                <option value="">All</option>
+                                <option value="wardah">Wardah</option>
+                                <option value="avoskin">Avoskin</option>
+                                <option value="somethinc">Somethinc</option>
+                                <option value="skintific">Skintific</option>
+                                <option value="the ordinary">The Ordinary</option>
                             </select>
                         </div>
                     </div>
 
                     <!-- Color Filter -->
-                    <div class="shop-widget widget-color">
+                    <div class="shop-widget widget-color mb-4">
                         <div class="product-filter">
                             <h6 class="mb-20">Color</h6>
                             <ul class="widget-nav-list">
@@ -47,7 +67,7 @@
                     </div>
 
                     <!-- Price Filter -->
-                    <div class="shop-widget">
+                    <div class="shop-widget mb-4">
                         <div class="product-filter widget-price">
                             <h6 class="mb-20">Price</h6>
                             <ul class="widget-nav-list">
@@ -64,75 +84,20 @@
                         <div class="product-filter">
                             <h6 class="mb-20">Tags</h6>
                             <div class="blog-tagcloud">
-                                 <a href="#">Drone</a>
-                                    <a href="#">Drone</a>
-                                    <a href="#">FPV</a>
-                                    <a href="#">Aerial Photography</a>
-                                    <a href="#">Cinematic</a>
-                                    <a href="#">4K Video</a>
-                                    <a href="#">8K Video</a>
-                                    <a href="#">DJI</a>
-                                    <a href="#">Flight Time</a>
-                                    <a href="#">Battery Life</a>
-                                    <a href="#">GPS</a>
-                                    <a href="#">Autonomous</a>
-                                    <a href="#">Controller</a>
-                                    <a href="#">FPV Goggles</a>
-                                    <a href="#">Mapping</a>
-                                    <a href="#">Survey</a>
-                                    <a href="#">Payload</a>
-                                    <a href="#">Brushless Motor</a>
-                                    <a href="#">Propeller</a>
-                                    <a href="#">Drone Show</a>
-                                    <a href="#">Agriculture Drone</a>
-                                    <a href="#">Thermal Camera</a>
-                                    <a href="#">Drone Racing</a>
-                                    <a href="#">No-Fly Zone</a>
-                                    <a href="#">Drone Law</a>
+                                <a href="#">Brightening</a>
+                                <a href="#">Hydrating</a>
+                                <a href="#">Acne</a>
+                                <a href="#">Exfoliating</a>
+                                <a href="#">Sunscreen</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product List Column -->
-                <div class="col-lg-9 col-md-9 order-md-2 order-1">
-                    <div class="row mb-5">
-                        <div class="col-lg-6 col-md-8">
-                            <div class="shop-toolbar__items shop-toolbar__item--left">
-                                <div class="shop-toolbar__item shop-toolbar__item--result">
-                                    <p class="result-count">
-                                        Showing <span id="products_count_start"></span>–<span id="products_count_end"></span>
-                                        of <span id="products_count_total"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="shop-toolbar__item">
-                                <select class="_filter form-select form-select-sm" name="_sort_by" onchange="getData()">
-                                    <option value="title_asc">Sort by A-Z</option>
-                                    <option value="title_desc">Sort by Z-A</option>
-                                    <option value="latest_publication">Sort by latest</option>
-                                    <option value="latest_added">Sort by time added</option>
-                                    <option value="price_asc">Sort by price: low to high</option>
-                                    <option value="price_desc">Sort by price: high to low</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-4">
-                            <div class="header-right-search">
-                                <div class="header-search-box">
-                                    <input class="_filter search-field" name="_search" type="text"
-                                        onkeypress="getDataOnEnter(event)" placeholder="Search by title or author...">
-                                    <button class="search-icon"><i class="icon-magnifier"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product List Output -->
+                <!-- Kanan: Product list -->
+                <div class="col-lg-9 col-md-8">
                     <div class="row" id="product-list"></div>
 
-                    <!-- Pagination -->
                     <div class="row">
                         <div class="col-12">
                             <ul class="page-pagination text-center mt-40" id="product-list-pagination"></ul>

@@ -19,9 +19,6 @@
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
-
-
-    @yield('addition_css')
     <!-- END: CSS Assets -->
 </head>
 
@@ -29,7 +26,7 @@
     <div class="page-box">
         @include('components.header')
         <div id="main-wrapper">
-            @yield('content')
+             @yield('content')
             @include('components.footer')
         </div>
     </div>
@@ -59,7 +56,6 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('pages/js/app.js') }}"></script>
-    @yield('addition_script')
-    <!-- END: JS Assets -->
+     @yield('addition_script')
 </body>
 </html>
