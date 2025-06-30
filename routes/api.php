@@ -7,6 +7,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
 
+Route::prefix('api/user')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']); // ✅ Sekarang path-nya /api/user/register
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+// Sisanya tetap sama...
 // Endpoint Auth (tidak butuh token)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -38,4 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // ✅ Admin bisa ubah role user
     Route::put('/users/{user}/role', [AdminController::class, 'updateRole'])
         ->middleware(['role:admin']);
+        
 });

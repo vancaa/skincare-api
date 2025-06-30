@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\Hash;
  *     title="Skincare API",
  *     version="1.0.0"
  * )
+ *
+ * @OA\Server(
+ *     url="http://127.0.0.1:8000",
+ *     description="Local Development Server"
+ * )
  */
+
 
 /**
  * @OA\Tag(
@@ -32,24 +38,36 @@ use Illuminate\Support\Facades\Hash;
  */
 class AuthController extends Controller
 {
-    /**
-     * @OA\Post(
-     *     path="/api/register",
-     *     tags={"Authentication"},
-     *     summary="Register pengguna baru",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password"},
-     *             @OA\Property(property="name", type="string", example="Admin Vanessa"),
-     *             @OA\Property(property="email", type="string", example="admin.vanessa@email.com"),
-     *             @OA\Property(property="password", type="string", example="admin123")
-     *         )
-     *     ),
-     *     @OA\Response(response=201, description="Berhasil register dan dapat token"),
-     *     @OA\Response(response=400, description="Gagal register")
-     * )
-     */
+   /**
+ * @OA\Post(
+ *     path="/api/register",
+ *     tags={"Authentication"},
+ *     summary="Register pengguna baru",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name", "email", "password"},
+ *             @OA\Property(property="name", type="string", example="Admin Vanessa"),
+ *             @OA\Property(property="email", type="string", example="admin.vanessa@email.com"),
+ *             @OA\Property(property="password", type="string", example="admin123")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Berhasil register dan dapat token",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="User registered successfully"),
+ *             @OA\Property(property="token", type="string", example="1|abc123..."),
+ *             @OA\Property(property="role", type="string", example="admin")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Gagal register"
+ *     )
+ * )
+ */
+
     public function register(Request $request)
     {
         $validated = $request->validate([

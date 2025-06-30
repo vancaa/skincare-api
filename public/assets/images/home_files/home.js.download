@@ -1,0 +1,131 @@
+axios
+    .get("/api/products")
+    .then(function (response) {
+        let data = response.data.data;
+        let html = `
+    <div class="single-hero-slider text-center banner-slide">
+        <img src="/assets/images/banner/hero-banner.png" alt="Banner" class="img-fluid banner-img" />
+        <div class="slider-text mt-4">
+            <h2>Selamat Datang di Vanca Glow</h2>
+            <p>✨ Temukan perawatan kulit terbaik untukmu ✨</p>
+        </div>
+    </div>
+`;
+
+        data.forEach(function (item) {
+            // Pastikan URL gambar valid
+            let imageUrl = item.image_url;
+
+            // Jika image_url tidak mengandung http, tambahkan baseUrl
+            if (!imageUrl.startsWith("http") && !imageUrl.startsWith("/")) {
+                imageUrl = baseUrl + "/" + imageUrl;
+            } else if (
+                !imageUrl.startsWith("http") &&
+                imageUrl.startsWith("/")
+            ) {
+                imageUrl = baseUrl + imageUrl;
+            }
+
+            html += `
+                <div class="single-hero-slider text-center">
+                    <img src="${imageUrl}" alt="${item.name}" 
+                         class="img-fluid slider-image" 
+                         onerror="this.src='/assets/images/placeholder.jpg'" />
+                    <div class="slider-text mt-4">
+                        <h2>${item.name}</h2>
+                        <p>${item.brand}</p>
+                        <p class="text-danger">Rp${parseInt(
+                            item.price
+                        ).toLocaleString("id-ID")}</p>
+                        <a href="/product/${
+                            item.id
+                        }" class="btn btn-dark">Lihat Detail</a>
+                    </div>
+                </div>
+            `;
+        });
+        $(document).ready(function () {
+            axios
+                .get("/api/products")
+                .then(function (response) {
+                    // ... kode slider Anda yang ada ...
+
+                    $("#product-preview").slick({
+                        dots: true,
+                        arrows: true,
+                        infinite: true,
+                        speed: 600,
+                        autoplay: true,
+                        autoplaySpeed: 5000,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        prevArrow:
+                            '<button type="button" class="slick-prev custom-arrow"></button>',
+                        nextArrow:
+                            '<button type="button" class="slick-next custom-arrow"></button>',
+                    });
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+        });
+        // Pastikan elemen slider ada
+        if ($("#product-preview").length) {
+            $("#product-preview").html(html);
+
+            // Hancurkan slider jika sudah ada
+            if ($("#product-preview").hasClass("slick-initialized")) {
+                $("#product-preview").slick("unslick");
+            }
+
+            // Inisialisasi slider dengan opsi yang lebih lengkap
+            $("#product-preview").slick({
+                dots: true,
+                arrows: true,
+                infinite: true,
+                speed: 800,
+                fade: false,
+                cssEase: "ease-in-out",
+                autoplay: true,
+                autoplaySpeed: 2500,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            arrows: true,
+                            dots: true,
+                        },
+                    },
+                ],
+            });
+        }
+    })
+    .catch(function (error) {
+        console.error("Error loading products:", error);
+
+        // Fallback content jika API gagal
+        if ($("#product-preview").length) {
+            $("#product-preview")
+                .html(
+                    `
+                <div class="single-hero-slider text-center">
+                    <img src="/assets/images/banner/hero-banner.png" alt="Banner" class="img-fluid" />
+                    <div class="slider-text mt-4">
+                        <h2>Selamat Datang di Vanca Glow</h2>
+                        <p>✨ Temukan perawatan kulit terbaik untukmu ✨</p>
+                    </div>
+                </div>
+            `
+                )
+                .slick({
+                    dots: true,
+                    arrows: true,
+                    infinite: true,
+                    autoplay: true,
+                });
+        }
+    });

@@ -17,6 +17,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Gel',
                 'image_url' => 'assets/images/products/aloe-soothing-gel-99percent.png',
             ],
+        
             [
                 'name' => 'Avoskin Miraculous Refining Toner',
                 'brand' => 'Avoskin',
@@ -150,6 +151,7 @@ class ProductSeeder extends Seeder
                 'category' => 'Essence',
                 'image_url' => 'assets/images/products/wardah-uv-shield-aqua-fresh-essence.png',
             ],
+
         ];
 
         foreach ($products as $product) {

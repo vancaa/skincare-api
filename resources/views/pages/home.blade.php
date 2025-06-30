@@ -151,85 +151,8 @@
 @section('addition_css')
     <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
     <style>
-     .slick-prev,
-.slick-next {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    border: none;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0; /* ⛔ hilangkan teks 'Next' dan 'Previous' */
-    text-indent: -9999px; /* tambahan kalau masih bocor */
-    overflow: hidden;
-}
-
-/* Posisi tombol panah */
-.slick-prev {
-    left: 15px;
-}
-.slick-next {
-    right: 15px;
-}
-
-/* Icon panahnya */
-.slick-prev::before,
-.slick-next::before {
-    content: '';
-    font-family: "slick";
-    font-size: 24px;
-    color: #333;
-    text-indent: 0;
-    display: inline-block;
-}
-
-.slick-prev::before {
-    content: '←'; /* bisa ganti pake \2190 atau unicode */
-}
-.slick-next::before {
-    content: '→';
-}
-   .slick-dots {
-        display: flex !important;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-        margin-top: 20px;
-         position: absolute;
-         top: 810px;
-    }
-
-    .slick-dots li {
-        margin: 0 5px;
-    }
-
-    .slick-dots li button {
-        font-size: 0;
-        width: 12px;
-        height: 12px;
-        border-radius: 100%;
-        background-color: #ccc;
-        border: none;
-    }
-
-    .slick-dots li.slick-active button {
-        background-color: #000;
-    }
-    .banner-img {
-        max-height: 500px;
-        width: auto;
-        object-fit: cover;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
+      
+    
     .banner-slide .slider-text {
         margin-top: 30px;
     }
@@ -238,10 +161,41 @@
         font-size: 32px;
         font-weight: 600;
     }
+
+.slider-image {
+    width: 100% !important;
+    max-width: 600px;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+.hero-area {
+    width: 100%;
+    min-height: 400px; /* tambahin tinggi minimum biar gak gepeng */
+}
+
+.slick-slide {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px; /* biar gak gepeng */
+}
+
+.slider-image {
+    width: 100%;
+     border: 3px dashed red;
+    max-width: 800px;
+    height: auto;
+    object-fit: contain;
+}
+
+
        .brand-slider-active .single-brand-item img {
-        width: 250px; 
-        max-width: none; 
-        height: 150px;
+        width: 350px; 
+        max-width: 1000px; 
+        height: 250px;
         margin: 0 auto;
         display: block;
     }
@@ -249,7 +203,7 @@
     .brand-slider-active .single-brand-item {
         max-width: none;
         text-align: center;
-        padding: 10px;
+        padding: 5px;
     }
 </style>
 @endsection

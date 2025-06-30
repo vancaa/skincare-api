@@ -49,7 +49,28 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Berhasil register dan dapat token"
+                        "description": "Berhasil register dan dapat token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|abc123..."
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Gagal register"
